@@ -1,23 +1,37 @@
-import { Node } from "../Scenegraph/Node"
-import { Group } from "../Scenegraph/Group"
+import { Node } from "../Scenegraph/Node";
+import { Group } from "../Scenegraph/Group";
+import { Light } from "../Scenegraph/Light";
+import { Camera } from "../Scenegraph/Camera";
 
 export class Visitor
 {
-  reset( )
+  public reset( )
   {
 
   }
-  traverse( n: Node )
+  public traverse( n: Node )
   {
     this.reset( );
     n.accept( this );
   }
-  visitNode( node: Node )
+  public visitNode( node: Node )
   {
     // do nothing
   }
-  visitGroup( group: Group )
+  public visitGroup( group: Group )
   {
-
+    let self = this;
+    group.forEachNode((node: Node) =>
+    {
+      node.accept( self );
+    });
+  }
+  public visitLight( light: Light )
+  {
+    this.visitNode( light );
+  }
+  public visitCamera( camera: Light )
+  {
+    this.visitNode( camera );
   }
 }
